@@ -1,8 +1,8 @@
 # Claude Skill Pack
 
-27 Skills für Claude Code / Cowork (Fable 5, Opus 4.8 — gleicher Harness, gleiche Skills).
+29 Skills für Claude Code / Cowork (Fable 5, Opus 4.8 — gleicher Harness, gleiche Skills).
 
-**Struktur:** `MattSkills/` (23, portiert aus mattpocock/skills, inkl. Lizenz) und `LutossSkills/` (4: deine drei sanierten Skills + der neue `verify-before-done`).
+**Struktur:** `MattSkills/` (23, portiert aus mattpocock/skills, inkl. Lizenz) und `LutossSkills/` (6: deine drei sanierten Skills + die neuen `verify-before-done`, `improve-project-structure`, `project-review`).
 
 **Installation:** Die Skill-Ordner aus `MattSkills/` und `LutossSkills/` **flach** (ohne die Gruppenordner) nach `~/.claude/skills/` (global) oder `<repo>/.claude/skills/` (projektweit) kopieren — Claude Code erwartet `skills/<skill-name>/SKILL.md` direkt. Aufruf per `/skill-name` oder automatisch über die Description. `disable-model-invocation: true` markiert rein nutzergesteuerte Skills.
 
@@ -17,4 +17,4 @@
 
 MattSkills: ask-matt, code-review, codebase-design, diagnosing-bugs, domain-modeling, git-guardrails-claude-code, grill-me, grill-with-docs, grilling, handoff, implement, improve-codebase-architecture, prototype, research, resolving-merge-conflicts, setup-matt-pocock-skills, setup-pre-commit, tdd, teach, to-issues, to-prd, triage, writing-great-skills.
 
-LutossSkills: implement-issues, loop-creator, review-loop, verify-before-done.
+LutossSkills: implement-issues, improve-project-structure, loop-creator, project-review, review-loop, verify-before-done.

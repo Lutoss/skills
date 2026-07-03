@@ -71,10 +71,12 @@ Off the main flow entirely.
 
 ## Local additions (this pack)
 
-Four skills ship with this pack on top of the upstream set:
+Six skills ship with this pack on top of the upstream set:
 
 - **`/implement-issues`** — batch-implements ready local-markdown issues (from `/to-issues` on the local tracker) in dependency waves, one worker per issue.
 - **`/review-loop`** — the review orchestrator: review -> triage findings -> fix -> verify -> re-review until clean, with a mandatory second-opinion reviewer. `/code-review` is one two-axis pass; `/review-loop` drives passes to closure.
+- **`/project-review`** — the non-code counterpart of `/code-review`: two-axis review (Standards / Brief) of finished documents, decks, spreadsheets, plans, or deliverable folders.
+- **`/improve-project-structure`** — the folder counterpart of `/improve-codebase-architecture`: scan a project folder for structural friction, present reorganizations as a visual report, carry out the chosen moves.
 - **`/loop-creator`** — meta-skill: design a new repeatable agent workflow as a loop contract before writing yet another skill.
 - **`/verify-before-done`** — completion discipline that runs beneath everything: no "done" without fresh evidence from a check that could have failed.
 

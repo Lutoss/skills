@@ -5,7 +5,7 @@ Zwei einsatzfertige Skill-Pakete, erstellt am 2026-07-03 aus zwei Quellen:
 1. **[mattpocock/skills](https://github.com/mattpocock/skills)** (Stand: Commit vom 2026-07-02, MIT-Lizenz) — die 21 aktiven Skills aus `engineering/` und `productivity/` plus `setup-pre-commit` und `git-guardrails-claude-code`
 2. **Eigene Skills** aus diesem Projektordner — `implement-issues`, `loop-creator`, `review-loop` (repariert und pro Paket angepasst; `brainstorming` wurde nach Flow-Review bewusst nicht übernommen, da `grill-with-docs` als Design-Einstieg genügt)
 
-Dazu **ein neuer Skill** (`verify-before-done`).
+Dazu **drei neue Skills** (`verify-before-done`, `improve-project-structure`, `project-review`).
 
 ## Warum 2 Pakete statt 3 (Fable 5 / Opus 4.8 / Codex 5.5)?
 
@@ -28,6 +28,8 @@ Modellspezifisch ist nur die Reviewer-Wahl in `review-loop`: Das Codex-Paket ruf
 ## Neue Skills
 
 - **verify-before-done** — Abschluss-Disziplin: keine „Fertig"-Meldung ohne frischen Beleg aus einem Check, der auch hätte fehlschlagen können. Der größte einzelne Qualitätshebel für Agentenarbeit, modellunabhängig.
+- **improve-project-structure** — scannt einen Projektordner auf strukturelle Reibung, präsentiert Reorganisations-Vorschläge als visuellen HTML-Report und setzt den gewählten um. Das Ordner-Pendant zu `improve-codebase-architecture`.
+- **project-review** — Zwei-Achsen-Review (Standards / ursprünglicher Auftrag) für fertige Nicht-Code-Ergebnisse: Dokumente, Präsentationen, Tabellen, Pläne. Das Pendant zu `code-review`, mit parallelen Sub-Reviews.
 
 ## Nicht übernommen
 
@@ -38,6 +40,8 @@ Modellspezifisch ist nur die Reviewer-Wahl in `review-loop`: Das Codex-Paket ruf
 **Claude** (Claude Code / Cowork): Skill-Ordner aus `claude/MattSkills/` und `claude/LutossSkills/` **flach** nach `~/.claude/skills/` (global) oder `<repo>/.claude/skills/` (projektweit) kopieren. In Cowork: Settings → Capabilities.
 
 **Codex** (CLI / IDE / App): Skill-Ordner aus `codex/MattSkills/` und `codex/LutossSkills/` **flach** nach `$HOME/.agents/skills/` (global) oder `<repo>/.agents/skills/` (projektweit) kopieren. Aufruf per `$skill-name` oder implizit.
+
+**Flach** heißt: Im Ziel liegt `skills/<skill-name>/SKILL.md` direkt — die Gruppenordner `MattSkills/`/`LutossSkills/` selbst werden nicht mitkopiert. Die Datei `LICENSE-mattpocock-skills` muss nicht mit (stört im Ziel aber auch nicht).
 
 **Erster Schritt in beiden Paketen:** `setup-matt-pocock-skills` ausführen (konfiguriert Issue-Tracker, Triage-Labels, Doku-Layout). Der Router `ask-matt` erklärt, welcher Skill wann passt — inklusive der lokalen Ergänzungen.
 

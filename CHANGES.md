@@ -27,7 +27,7 @@ Stand: 2026-07-03, nach Review-Runde (2 unabhängige Review-Agents), Testläufen
 **Unverändert (Claude-Paket):** 19 der 22 portierten Skills byte-identisch (per `diff -r` verifiziert). Matts Skills sind bewusst modellagnostisch — für Fable 5 gab es nichts zu „optimieren", und unnötige Umformulierungen wären reine Drift-Quelle.
 
 **Geändert (beide Pakete):**
-- `ask-matt`: Abschnitt „Local additions (this pack)" — routet die 4 lokalen Skills ins Gesamtsystem.
+- `ask-matt`: Abschnitt „Local additions (this pack)" — routet die 6 lokalen Skills ins Gesamtsystem.
 - `setup-matt-pocock-skills`-Templates (github/gitlab/local): „Wayfinding operations"-Abschnitte entfernt — sie verwiesen auf den nicht portierten `in-progress`-Skill `wayfinder` (Review-Fund).
 
 **Zusätzlich geändert (nur Codex-Paket):**
@@ -37,12 +37,20 @@ Stand: 2026-07-03, nach Review-Runde (2 unabhängige Review-Agents), Testläufen
 
 **Nicht übernommen:** `in-progress/` (7, explizit unfertig), `deprecated/` (4), `personal/` (Matts private: edit-article, obsidian-vault), `misc/migrate-to-shoehorn` + `misc/scaffold-exercises` (Matts Kurs-Tooling). `git-guardrails-claude-code` nur im Claude-Paket (PreToolUse-Hooks existieren nur dort; Codex hat eigene Sandbox/Approvals).
 
-## 3. Neuer Skill — was er tut und warum
+## 3. Neue Skills — was sie tun und warum
 
 ### verify-before-done
 Abschluss-Disziplin: Eine „Fertig"-Meldung braucht frischen Beleg aus einem Check, der auch hätte fehlschlagen können — mit Beweis-Leiter (Original-Failing-Case > gezielter Test > Suite > realer Aufruf > Rendern > Read-Through), Meldeformat (Verified / Implemented-but-unverified / Partial) und Tautologie-Verbot.
 **Warum:** Unbelegte Fertig-Meldungen sind der häufigste Agenten-Fehlermodus — modellunabhängig der größte einzelne Qualitätshebel; passt zur TDD/Feedback-Loop-Philosophie des restlichen Pakets.
 **Test:** Agent fixte einen Umlaut-Bug, lief die vorher rote Suite **nach** der letzten Änderung (grün, Output eingefügt), deckte eine Testlücke (ä fehlte in der Suite) per realem Aufruf ab und benannte die Beweis-Stufe. Ground-Truth-Nachlauf: Suite grün, Fix minimal. Bestanden.
+
+### improve-project-structure (Doku-Nachtrag 03.07.2026)
+Ordner-Pendant zu `improve-codebase-architecture`: scannt einen Projektordner auf strukturelle Reibung, präsentiert Reorganisations-Vorschläge als visuellen HTML-Report und setzt die gewählte Variante um — Ziel ist eine Struktur, in der Menschen und Agenten gleichermaßen schnell finden.
+
+### project-review (Doku-Nachtrag 03.07.2026)
+Nicht-Code-Pendant zu `code-review`: Zwei-Achsen-Review (Standards des Projekts / ursprünglicher Auftrag) für fertige Dokumente, Präsentationen, Tabellen, Pläne oder Deliverable-Ordner, mit parallelen Sub-Reviews.
+
+*Beide Skills waren im Paket enthalten, aber in READMEs und CHANGES nicht erfasst; Zahlen und Listen am 03.07.2026 nachgezogen.*
 
 ## 4. Review-Runde (2 unabhängige Agents) — Ergebnis
 
@@ -50,4 +58,4 @@ Abschluss-Disziplin: Eine „Fertig"-Meldung braucht frischen Beleg aus einem Ch
 
 ## Paketstand
 
-Claude: 27 Skills · Codex: 26 Skills, je gruppiert in `MattSkills/` (Upstream-Anteil inkl. Lizenz) und `LutossSkills/` (deine sanierten Skills + `verify-before-done`); bei Installation flach ins Ziel kopieren. Flow: `grill-with-docs → to-prd → to-issues → implement`/`implement-issues` → `review-loop` → Human-Abnahme, mit `verify-before-done` als Disziplin darunter.
+Claude: 29 Skills · Codex: 28 Skills, je gruppiert in `MattSkills/` (Upstream-Anteil inkl. Lizenz) und `LutossSkills/` (deine sanierten Skills + `verify-before-done`, `improve-project-structure`, `project-review`); bei Installation flach ins Ziel kopieren. Flow: `grill-with-docs → to-prd → to-issues → implement`/`implement-issues` → `review-loop` → Human-Abnahme, mit `verify-before-done` als Disziplin darunter.

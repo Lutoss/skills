@@ -1,8 +1,8 @@
 # Codex Skill Pack
 
-26 Skills für OpenAI Codex (CLI, IDE-Extension, App — z. B. Codex 5.5).
+28 Skills für OpenAI Codex (CLI, IDE-Extension, App — z. B. Codex 5.5).
 
-**Struktur:** `MattSkills/` (22, portiert aus mattpocock/skills, inkl. Lizenz) und `LutossSkills/` (4: deine drei sanierten Skills + der neue `verify-before-done`).
+**Struktur:** `MattSkills/` (22, portiert aus mattpocock/skills, inkl. Lizenz) und `LutossSkills/` (6: deine drei sanierten Skills + die neuen `verify-before-done`, `improve-project-structure`, `project-review`).
 
 **Installation:** Die Skill-Ordner aus `MattSkills/` und `LutossSkills/` **flach** (ohne die Gruppenordner) nach `$HOME/.agents/skills/` (global) oder `<repo>/.agents/skills/` (projektweit) kopieren. Aufruf per `$skill-name`, `/skills`, oder implizit über die Description. Codex erkennt Änderungen automatisch; sonst Codex neu starten.
 
@@ -17,4 +17,4 @@
 
 MattSkills: ask-matt, code-review, codebase-design, diagnosing-bugs, domain-modeling, grill-me, grill-with-docs, grilling, handoff, implement, improve-codebase-architecture, prototype, research, resolving-merge-conflicts, setup-matt-pocock-skills, setup-pre-commit, tdd, teach, to-issues, to-prd, triage, writing-great-skills.
 
-LutossSkills: implement-issues, loop-creator, review-loop, verify-before-done.
+LutossSkills: implement-issues, improve-project-structure, loop-creator, project-review, review-loop, verify-before-done.
