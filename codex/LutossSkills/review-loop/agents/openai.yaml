@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Loop"
+  short_description: "Run review, fix, and re-review loops"
+  default_prompt: "Use $review-loop to review this project, triage findings, fix confirmed issues, and verify the result."

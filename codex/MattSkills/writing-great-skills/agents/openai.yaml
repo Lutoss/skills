@@ -1,0 +1,6 @@
+interface:
+  display_name: "Writing Great Skills"
+  short_description: "Reference for writing and editing skills well"
+
+policy:
+  allow_implicit_invocation: false
