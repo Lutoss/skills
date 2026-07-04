@@ -52,7 +52,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Publish the issues to the issue tracker
 
-For each approved slice, publish a new issue to the issue tracker. Use the issue body template below. These issues are considered ready for AFK agents, so publish them with the correct triage label unless instructed otherwise.
+For each approved slice, publish a new issue to the issue tracker. Use the issue body template below. These issues are considered ready for AFK agents, so publish them with the correct triage label unless instructed otherwise. On GitHub/GitLab that means applying the repo's mapped `ready-for-agent` label. On the local Markdown tracker, instead begin each issue file with two metadata lines so `implement-issues` can pick it up — `Status: ready-for-agent` and `Implementation: pending` — using these canonical role strings verbatim (label remapping applies to remote trackers only).
 
 Publish issues in dependency order (blockers first) so you can reference real issue identifiers in the "Blocked by" field.
 

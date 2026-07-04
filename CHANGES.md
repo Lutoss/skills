@@ -1,3 +1,5 @@
+*Detailed changelog (German). See [README.md](README.md) for the English summary.*
+
 # CHANGES — Was geändert wurde und warum
 
 Stand: 2026-07-03, nach Review-Runde (2 unabhängige Review-Agents), Testläufen und Flow-Entscheidung.
@@ -55,6 +57,25 @@ Nicht-Code-Pendant zu `code-review`: Zwei-Achsen-Review (Standards des Projekts 
 ## 4. Review-Runde (2 unabhängige Agents) — Ergebnis
 
 0 kritisch, 2 major (beide Codex-Paket, behoben: writing-great-skills-Mechanik; verwaistes PowerShell-Script), 6 minor + 5 nits (behoben, oben als „Review-Fund" markiert). Akzeptiert statt gefixt: Multi-Plattform-Abschnitte in `visual-companion.md` (inzwischen mit brainstorming entfernt). Abschluss-Verifikation nach der Entfernung: Frontmatter, Querverweise, Links, Paket-Leckagen, YAML — alles grün.
+
+## 5. Zweite Review-Runde (04.07.2026, GPT-5.5 xhigh)
+
+Vollständiger Zweit-Review des Codex-Pakets durch Codex CLI (GPT-5.5, reasoning `xhigh`, read-only Sandbox), inklusive Abgleich gegen die offiziellen Docs (developers.openai.com/codex/skills, Claude-Code-CLI-Referenz). Ergebnis: 0 kritisch, 6 major, 4 minor — alle Befunde am Code verifiziert und umgesetzt:
+
+1. **setup-matt-pocock-skills** (Codex): bevorzugte `CLAUDE.md` beim Schreiben — Codex liest aber `AGENTS.md`. Jetzt: `AGENTS.md` bevorzugt, `CLAUDE.md` nur als Migrationskontext.
+2. **to-issues ↔ implement-issues** (beide Pakete): Lokaler Markdown-Flow war intern gebrochen — das Issue-Template erzeugte keine `Status:`-/`Implementation:`-Zeilen, die implement-issues zum Aufgreifen braucht. Template ergänzt; Konventionen in `issue-tracker-local.md` dokumentiert.
+3. **implement-issues Label-Matching** (beide Pakete): Skripte matchen kanonische Rollen-Strings hart; jetzt dokumentiert und erzwungen, dass lokale `Status:`-Werte immer kanonisch sind (Label-Remapping gilt nur für GitHub/GitLab).
+4. **invoke-claude-review.ps1** (Codex): klassischer .NET-Pipe-Deadlock (ReadToEnd nach WaitForExit); auf asynchrones Stream-Draining umgestellt.
+5. **setup-matt-pocock-skills**: hängende Referenz auf nicht portierten Skill `qa` entfernt (beide Pakete).
+6. **tdd**: hängende Referenz „see the `review` skill" → `code-review`/`review-loop` (beide Pakete).
+7. **writing-great-skills** (Codex): `openai.yaml`-Beispiel als korrektes verschachteltes YAML; Behauptung korrigiert — explizites `$name`-Routing bleibt trotz `allow_implicit_invocation: false` möglich.
+8. **improve-project-structure** (Codex): Cowork-spezifische Formulierung neutralisiert.
+9. **to-prd** (Codex): Widerspruch „no interview" vs. Pflicht-Rückfrage zu Seams → optionale Einzelrückfrage nur bei materieller Unsicherheit.
+10. **implement, setup-pre-commit** (Codex): Commit erst nach Zustimmung, sofern nicht ausdrücklich beauftragt. Bei `resolving-merge-conflicts` bewusst nicht geändert — der Commit ist dort inhärenter Teil des Merge-Abschlusses (vom Reviewer selbst als Ausnahme benannt).
+
+Durch die gespiegelten Fixes (2, 3, 5, 6) sind im Claude-Paket nun zusätzlich `tdd`, `to-issues` und `setup-matt-pocock-skills` (SKILL.md + `issue-tracker-local.md`) gegenüber Upstream verändert — jede Abweichung ist hier dokumentiert.
+
+Außerdem in dieser Runde: Root-README auf Englisch neu geschrieben (Installation, Attribution, Änderungsübersicht), Pack-READMEs übersetzt, `install.sh`/`install.ps1` (flache Installation für beide Pakete, global/projektweit), Root-`LICENSE` (MIT) und `.gitignore` ergänzt.
 
 ## Paketstand
 

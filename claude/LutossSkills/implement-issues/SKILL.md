@@ -33,6 +33,8 @@ Only implement issues that are `Status: ready-for-agent` or have `ready-for-agen
 
 Treat `ready-for-agent` as AFK. Treat `ready-for-human`, `needs-info`, `needs-triage`, blocked issues, and completed issues as HITL/skipped.
 
+Local `Status:`/`Labels:` values always use the canonical role strings verbatim; the label remapping in `docs/agents/triage-labels.md` applies to remote trackers (GitHub/GitLab), not to local Markdown files.
+
 ## Workflow
 
 1. Read the local project instructions:

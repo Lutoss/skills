@@ -22,7 +22,7 @@ What helps the intern helps the agent.
 This skill operates on one concrete folder. Establish it before anything else:
 
 - If the user named a folder, or one is already connected, confirm that's the project to restructure.
-- If not, ask for one — in Cowork, request folder access; in a terminal, ask for the path.
+- If not, ask the user for the path, or ask them to open/attach the project folder in their environment.
 
 Never scan without an agreed root: proposals about the wrong folder waste everyone's time, and the final step moves real files.
 

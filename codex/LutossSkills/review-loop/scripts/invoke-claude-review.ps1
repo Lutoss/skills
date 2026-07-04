@@ -72,15 +72,23 @@ function Invoke-ClaudeProcess {
   $psi.UseShellExecute = $false
 
   $process = [System.Diagnostics.Process]::Start($psi)
+  # Drain both streams asynchronously; reading only after WaitForExit can
+  # deadlock once the child fills an undrained pipe buffer.
+  $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+  $stderrTask = $process.StandardError.ReadToEndAsync()
+
   if (-not $process.WaitForExit($Timeout * 1000)) {
     $process.Kill()
+    $process.WaitForExit()
     throw "Claude timed out after $Timeout seconds."
   }
+  # Second, untimed WaitForExit flushes pending async output.
+  $process.WaitForExit()
 
   [pscustomobject]@{
     ExitCode = $process.ExitCode
-    Stdout = $process.StandardOutput.ReadToEnd()
-    Stderr = $process.StandardError.ReadToEnd()
+    Stdout = $stdoutTask.GetAwaiter().GetResult()
+    Stderr = $stderrTask.GetAwaiter().GetResult()
   }
 }
 
