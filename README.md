@@ -1,50 +1,85 @@
-# Skill-Packs: Claude & Codex
+# Skill Packs: Claude & Codex
 
-Zwei einsatzfertige Skill-Pakete, erstellt am 2026-07-03 aus zwei Quellen:
+Two ready-to-install skill packs in the open [SKILL.md](https://agentskills.io) format:
 
-1. **[mattpocock/skills](https://github.com/mattpocock/skills)** (Stand: Commit vom 2026-07-02, MIT-Lizenz) — die 21 aktiven Skills aus `engineering/` und `productivity/` plus `setup-pre-commit` und `git-guardrails-claude-code`
-2. **Eigene Skills** aus diesem Projektordner — `implement-issues`, `loop-creator`, `review-loop` (repariert und pro Paket angepasst; `brainstorming` wurde nach Flow-Review bewusst nicht übernommen, da `grill-with-docs` als Design-Einstieg genügt)
+- **`claude/`** — 29 skills for Claude Code / Cowork
+- **`codex/`** — 28 skills for OpenAI Codex (CLI, IDE extension, app)
 
-Dazu **drei neue Skills** (`verify-before-done`, `improve-project-structure`, `project-review`).
-
-## Warum 2 Pakete statt 3 (Fable 5 / Opus 4.8 / Codex 5.5)?
-
-Skills sind Prozess-Anweisungen im offenen SKILL.md-Standard ([agentskills.io](https://agentskills.io)). Die relevanten Unterschiede liegen im **Harness** (Claude Code vs. Codex CLI: Subagent-Aufrufe, Frontmatter-Felder, `/skill`- vs. `$skill`-Syntax, Installationspfade), nicht im Modell. Fable 5 und Opus 4.8 nutzen denselben Harness und damit identische Skills — ein drittes Paket wäre reine Duplikation, die bei jeder Änderung doppelt gepflegt werden müsste.
-
-Modellspezifisch ist nur die Reviewer-Wahl in `review-loop`: Das Codex-Paket ruft Claude Code (Opus 4.8 oder neuer, `--effort max`) als Zweitmeinung auf, das Claude-Paket umgekehrt die Codex CLI.
-
-## Review-Befunde (Kurzfassung)
-
-**mattpocock/skills:** Hohe Qualität, bewusst modellagnostisch, für Fable 5 fast 1:1 geeignet. Angepasst wurde nur: Claude-Code-spezifische Subagent-Aufrufe (`Agent`-Tool, `subagent_type=Explore` in `code-review`, `improve-codebase-architecture`, `codebase-design`) für Codex generalisiert; `disable-model-invocation`/`argument-hint`-Frontmatter (Codex ignoriert beides) für Codex entfernt und durch `agents/openai.yaml` mit `allow_implicit_invocation: false` ersetzt; Skill-Verweise für Codex auf `$name`-Syntax umgestellt.
-
-**Eigene 4 Skills:** Gut konstruiert, aber mit Defekten, die in beiden Paketen behoben wurden:
-
-| Skill | Befund | Fix |
-|---|---|---|
-| implement-issues | Hartkodiertes `$env:CODEX_HOME` (veraltet), nur PowerShell | Claude: Skill-Ordner-Pfad + parallele Task-Tool-Worker; Codex: offizieller Pfad `$HOME/.agents/skills/` + Bash/PowerShell |
-| loop-creator | 8+ hängende Referenzen (`privacy-gate-loop`, `tdd-slice`, `review-slice`, `docs/loop-contract.md`, `lutoss-skills` …) | Auf real vorhandene Skills gemappt; Privacy-Gate inline; Template inline |
-| review-loop | Hängende Referenzen (`review-slice`, `tdd-slice`, `slice-pr-loop`, `diagnose`, `second-opinion-review-loop`); harte Pinnung auf „Opus 4.8 Max" | Referenzen gemappt; Modellwahl auf „stärkstes verfügbares Modell" verallgemeinert; Claude-Variante invertiert (Codex CLI als Zweitmeinung, `references/second-opinion-protocol.md`) |
-
-## Neue Skills
-
-- **verify-before-done** — Abschluss-Disziplin: keine „Fertig"-Meldung ohne frischen Beleg aus einem Check, der auch hätte fehlschlagen können. Der größte einzelne Qualitätshebel für Agentenarbeit, modellunabhängig.
-- **improve-project-structure** — scannt einen Projektordner auf strukturelle Reibung, präsentiert Reorganisations-Vorschläge als visuellen HTML-Report und setzt den gewählten um. Das Ordner-Pendant zu `improve-codebase-architecture`.
-- **project-review** — Zwei-Achsen-Review (Standards / ursprünglicher Auftrag) für fertige Nicht-Code-Ergebnisse: Dokumente, Präsentationen, Tabellen, Pläne. Das Pendant zu `code-review`, mit parallelen Sub-Reviews.
-
-## Nicht übernommen
-
-`in-progress/` (7 Skills, explizit unfertig), `deprecated/` (4), `personal/` (Matts private Skills: `edit-article`, `obsidian-vault`), `misc/migrate-to-shoehorn` und `misc/scaffold-exercises` (Matts Kurs-Tooling). `git-guardrails-claude-code` nur im Claude-Paket (Claude-Code-Hooks; Codex bringt eigene Sandbox/Approvals mit).
+Most skills are ported from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT) and partially reworked; the rest are our own repaired or newly written skills.
 
 ## Installation
 
-**Claude** (Claude Code / Cowork): Skill-Ordner aus `claude/MattSkills/` und `claude/LutossSkills/` **flach** nach `~/.claude/skills/` (global) oder `<repo>/.claude/skills/` (projektweit) kopieren. In Cowork: Settings → Capabilities.
+### Quick install (scripts)
 
-**Codex** (CLI / IDE / App): Skill-Ordner aus `codex/MattSkills/` und `codex/LutossSkills/` **flach** nach `$HOME/.agents/skills/` (global) oder `<repo>/.agents/skills/` (projektweit) kopieren. Aufruf per `$skill-name` oder implizit.
+Both scripts take a pack (`claude` or `codex`) and an optional scope (`global`, the default, or `project` with an optional target directory).
 
-**Flach** heißt: Im Ziel liegt `skills/<skill-name>/SKILL.md` direkt — die Gruppenordner `MattSkills/`/`LutossSkills/` selbst werden nicht mitkopiert. Die Datei `LICENSE-mattpocock-skills` muss nicht mit (stört im Ziel aber auch nicht).
+Bash:
 
-**Erster Schritt in beiden Paketen:** `setup-matt-pocock-skills` ausführen (konfiguriert Issue-Tracker, Triage-Labels, Doku-Layout). Der Router `ask-matt` erklärt, welcher Skill wann passt — inklusive der lokalen Ergänzungen.
+```sh
+./install.sh claude                       # global: $HOME/.claude/skills
+./install.sh codex                        # global: $HOME/.agents/skills
+./install.sh claude project               # project: ./.claude/skills
+./install.sh codex project /path/to/repo  # project: /path/to/repo/.agents/skills
+```
 
-## Lizenz
+PowerShell:
 
-Portierte Skills: MIT (siehe `LICENSE-mattpocock-skills` in jedem Paket, © Matt Pocock). Eigene und neue Skills: dein Projekt.
+```powershell
+.\install.ps1 claude                        # global: $HOME\.claude\skills
+.\install.ps1 codex                         # global: $HOME\.agents\skills
+.\install.ps1 claude project                # project: .\.claude\skills
+.\install.ps1 codex project C:\path\to\repo # project: C:\path\to\repo\.agents\skills
+```
+
+### Manual install
+
+Copy the skill folders from `<pack>/MattSkills/` and `<pack>/LutossSkills/` **flat** into the destination — without the `MattSkills/`/`LutossSkills/` group folders. The destination must contain `skills/<skill-name>/SKILL.md` directly. Skip the loose files (`LICENSE-mattpocock-skills`, `README.md`); they do no harm at the destination but are not needed.
+
+| Pack | Global | Project |
+|---|---|---|
+| claude | `~/.claude/skills/` | `<repo>/.claude/skills/` |
+| codex | `$HOME/.agents/skills/` | `<repo>/.agents/skills/` |
+
+### First step after installing
+
+Run `setup-matt-pocock-skills` once in the target repo (configures issue tracker, triage labels, docs layout). Use `ask-matt` as the router — it explains which skill fits when, including the local additions.
+
+## Attribution
+
+Most skills in both packs were copied from [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT license, snapshot from 2026-07-02) and partially reworked. See `LICENSE-mattpocock-skills` in each pack's `MattSkills/` folder.
+
+## What we changed and why
+
+**Codex pack** — adapted to the Codex harness: Claude-specific frontmatter keys (`disable-model-invocation`, `argument-hint`) removed; skill cross-references switched to `$name` syntax; user-invoked skills carry an `agents/openai.yaml` with `allow_implicit_invocation: false`; Claude-specific subagent instructions generalized (parallel where available, otherwise sequential with fresh context); `review-loop` gets its second opinion from the Claude Code CLI.
+
+**Claude pack** — stays close to upstream by design; deviations are limited to dangling-reference and issue-flow interop fixes, each documented in [CHANGES.md](CHANGES.md). `review-loop` is inverted to get its second opinion from the Codex CLI.
+
+**Own skills repaired** (in both packs): `implement-issues` (hardcoded, outdated `$env:CODEX_HOME` path; PowerShell-only), `loop-creator` (8+ dangling references to non-existent skills and files), `review-loop` (dangling references; hard pin to one specific reviewer model, now generalized).
+
+**Three new skills:**
+
+- `verify-before-done` — no "done" report without fresh evidence from a check that could have failed; the single biggest quality lever for agent work.
+- `improve-project-structure` — scans a project folder for structural friction, presents reorganization proposals as a visual HTML report, and applies the chosen one; the folder counterpart to `improve-codebase-architecture`.
+- `project-review` — two-axis review (project standards / original brief) for finished non-code deliverables (documents, presentations, spreadsheets, plans); the counterpart to `code-review`.
+
+Full changelog (German): [CHANGES.md](CHANGES.md).
+
+## Repository structure
+
+```
+skill-packs/
+├── claude/               # 29 skills for Claude Code / Cowork
+│   ├── MattSkills/       # 23 ported skills + LICENSE-mattpocock-skills
+│   └── LutossSkills/     # 6 own skills
+├── codex/                # 28 skills for OpenAI Codex
+│   ├── MattSkills/       # 22 ported skills + LICENSE-mattpocock-skills
+│   └── LutossSkills/     # 6 own skills
+├── install.sh            # installer (bash)
+├── install.ps1           # installer (PowerShell)
+├── CHANGES.md            # detailed changelog (German)
+└── LICENSE
+```
+
+## License
+
+MIT — see [LICENSE](LICENSE). Skills under `*/MattSkills/` are © Matt Pocock ([mattpocock/skills](https://github.com/mattpocock/skills), MIT; see `LICENSE-mattpocock-skills` in each pack).
