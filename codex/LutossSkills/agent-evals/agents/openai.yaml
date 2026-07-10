@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Evals"
+  short_description: "Route and evaluate subagent model performance"
+  default_prompt: "Use $agent-evals to recommend a subagent profile and record the verified result."

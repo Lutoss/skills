@@ -2,7 +2,7 @@
 
 # CHANGES — Was geändert wurde und warum
 
-Stand: 2026-07-03, nach Review-Runde (2 unabhängige Review-Agents), Testläufen und Flow-Entscheidung.
+Stand: 2026-07-10, nach Ergänzung des lernenden Subagent-Routings und der read-only Claude-Code-Brücke.
 
 ## 0. Entfernt nach Flow-Diskussion
 
@@ -79,4 +79,16 @@ Außerdem in dieser Runde: Root-README auf Englisch neu geschrieben (Installatio
 
 ## Paketstand
 
-Claude: 29 Skills · Codex: 28 Skills, je gruppiert in `MattSkills/` (Upstream-Anteil inkl. Lizenz) und `LutossSkills/` (deine sanierten Skills + `verify-before-done`, `improve-project-structure`, `project-review`); bei Installation flach ins Ziel kopieren. Flow: `grill-with-docs → to-prd → to-issues → implement`/`implement-issues` → `review-loop` → Human-Abnahme, mit `verify-before-done` als Disziplin darunter.
+Claude: 29 Skills · Codex: 30 Skills, je gruppiert in `MattSkills/` (Upstream-Anteil inkl. Lizenz) und `LutossSkills/`; bei Installation flach ins Ziel kopieren. Flow: `grill-with-docs → to-prd → to-issues → implement`/`implement-issues` → `review-loop` → Human-Abnahme, mit `verify-before-done` als Disziplin darunter.
+
+## 6. Lernendes Subagent-Routing und Claude-Brücke (10.07.2026)
+
+### agent-evals
+
+Lokaler, schema-versionierter SQLite-Store für native Codex-Subagents und externe Agenten. Erfasst nur minimierte Metadaten, Hashes, verifizierte 1–5-Rubriken und append-only Folgeurteile; keine Rohprompts, Transkripte, Secrets, Quelltexte oder absoluten Projektpfade. Empfehlungen werden nach Task-Typ und Lane getrennt und erst ab fünf vergleichbaren bewerteten Läufen als empirisches Routing ausgegeben. Enthält Tests für Lifecycle, Mindeststichprobe, ungültige Checkdaten und parallele SQLite-Writes.
+
+### ask-claude
+
+Read-only Adapter für eine lokal authentifizierte Claude-Code-CLI als unabhängige Zweitmeinung. Startet Claude in Safe Mode mit Read/Glob/Grep, optional WebSearch/WebFetch, und sperrt Bash/Edit/Write. Die strukturierte Antwort wird als `pending_review` in `agent-evals` registriert; der Codex-Hauptagent muss Befunde verifizieren und den Lauf anschließend bewerten. Reale Smoke-Tests mit Claude Sonnet 4.6 und Claude Opus 4.8 bestanden.
+
+`ask-matt` routet beide neuen Skills. Der Codex-Pack-Stand steigt von 28 auf 30 Skills und der Lutoss-Anteil von 6 auf 8.

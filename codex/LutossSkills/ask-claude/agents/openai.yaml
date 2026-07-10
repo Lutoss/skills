@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ask Claude"
+  short_description: "Use Claude Code for a bounded second opinion"
+  default_prompt: "Use $ask-claude to get a read-only Claude second opinion and evaluate it."

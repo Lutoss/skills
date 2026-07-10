@@ -3,7 +3,7 @@
 Two ready-to-install skill packs in the open [SKILL.md](https://agentskills.io) format:
 
 - **`claude/`** — 29 skills for Claude Code / Cowork
-- **`codex/`** — 28 skills for OpenAI Codex (CLI, IDE extension, app)
+- **`codex/`** — 30 skills for OpenAI Codex (CLI, IDE extension, app)
 
 Most skills are ported from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT) and partially reworked; the rest are our own repaired or newly written skills.
 
@@ -56,11 +56,13 @@ Most skills in both packs were copied from [mattpocock/skills](https://github.co
 
 **Own skills repaired** (in both packs): `implement-issues` (hardcoded, outdated `$env:CODEX_HOME` path; PowerShell-only), `loop-creator` (8+ dangling references to non-existent skills and files), `review-loop` (dangling references; hard pin to one specific reviewer model, now generalized).
 
-**Three new skills:**
+**Five new skills:**
 
 - `verify-before-done` — no "done" report without fresh evidence from a check that could have failed; the single biggest quality lever for agent work.
 - `improve-project-structure` — scans a project folder for structural friction, presents reorganization proposals as a visual HTML report, and applies the chosen one; the folder counterpart to `improve-codebase-architecture`.
 - `project-review` — two-axis review (project standards / original brief) for finished non-code deliverables (documents, presentations, spreadsheets, plans); the counterpart to `code-review`.
+- `agent-evals` — records verified native and external agent runs in a private SQLite store and recommends models by task after enough comparable evidence.
+- `ask-claude` — invokes a locally authenticated Claude Code CLI as a bounded read-only second-opinion agent and feeds the verified result into `agent-evals`.
 
 Full changelog (German): [CHANGES.md](CHANGES.md).
 
@@ -71,9 +73,9 @@ skill-packs/
 ├── claude/               # 29 skills for Claude Code / Cowork
 │   ├── MattSkills/       # 23 ported skills + LICENSE-mattpocock-skills
 │   └── LutossSkills/     # 6 own skills
-├── codex/                # 28 skills for OpenAI Codex
+├── codex/                # 30 skills for OpenAI Codex
 │   ├── MattSkills/       # 22 ported skills + LICENSE-mattpocock-skills
-│   └── LutossSkills/     # 6 own skills
+│   └── LutossSkills/     # 8 own skills
 ├── install.sh            # installer (bash)
 ├── install.ps1           # installer (PowerShell)
 ├── CHANGES.md            # detailed changelog (German)
