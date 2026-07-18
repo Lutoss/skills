@@ -1,6 +1,0 @@
-interface:
-  display_name: "Grill With Docs"
-  short_description: "Grilling interview that also builds CONTEXT.md and ADRs as you go"
-
-policy:
-  allow_implicit_invocation: false

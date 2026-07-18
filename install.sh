@@ -68,24 +68,18 @@ installed=0
 overwritten=0
 names=""
 
-for group in MattSkills LutossSkills; do
-  GROUP_DIR="$REPO_DIR/$PACK/$group"
-  if [ ! -d "$GROUP_DIR" ]; then
-    echo "Warning: group folder '$GROUP_DIR' not found, skipping." >&2
-    continue
+PACK_DIR="$REPO_DIR/$PACK"
+for skill in "$PACK_DIR"/*; do
+  [ -d "$skill" ] || continue   # skip loose files (README, ...)
+  name=$(basename "$skill")
+  if [ -d "$DEST/$name" ]; then
+    echo "Overwriting existing skill: $name"
+    rm -rf "$DEST/${name:?}"
+    overwritten=$((overwritten + 1))
   fi
-  for skill in "$GROUP_DIR"/*; do
-    [ -d "$skill" ] || continue   # skip loose files (LICENSE, README, ...)
-    name=$(basename "$skill")
-    if [ -d "$DEST/$name" ]; then
-      echo "Overwriting existing skill: $name"
-      rm -rf "$DEST/${name:?}"
-      overwritten=$((overwritten + 1))
-    fi
-    cp -R "$skill" "$DEST/"
-    names="$names $name"
-    installed=$((installed + 1))
-  done
+  cp -R "$skill" "$DEST/"
+  names="$names $name"
+  installed=$((installed + 1))
 done
 
 echo ""
@@ -94,5 +88,5 @@ for n in $names; do
   echo "  - $n"
 done
 echo ""
-echo "First step after install: run setup-matt-pocock-skills once in your target repo."
-echo "Then use ask-matt as the router to find the right skill."
+echo "Optional companion: the skills reference mattpocock/skills (code-review, tdd, handoff, ...)."
+echo "Install them separately from https://github.com/mattpocock/skills for the full flow."

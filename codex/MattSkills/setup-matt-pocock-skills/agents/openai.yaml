@@ -1,6 +1,0 @@
-interface:
-  display_name: "Setup Matt Pocock Skills"
-  short_description: "One-time repo setup: issue tracker, triage labels, domain docs"
-
-policy:
-  allow_implicit_invocation: false

@@ -1,6 +1,0 @@
-interface:
-  display_name: "Teach"
-  short_description: "Learn a concept over multiple sessions in a stateful workspace"
-
-policy:
-  allow_implicit_invocation: false

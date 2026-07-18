@@ -1,6 +1,0 @@
-interface:
-  display_name: "Triage"
-  short_description: "Move issues and external PRs through triage roles to agent-ready briefs"
-
-policy:
-  allow_implicit_invocation: false
