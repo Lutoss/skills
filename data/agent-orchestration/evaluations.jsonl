@@ -1,0 +1,7 @@
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"gpt-5.6-sol","intelligence":9,"taste":6,"cost":8,"note":"Hard, open-ended, high-value tasks. Alias gpt-5.6 routes here. Codex sub usage is near-free."}
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"gpt-5.6-terra","intelligence":7,"taste":5,"cost":9,"note":"Everyday work, read-heavy subagents (exploration, triage, summarization)."}
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"gpt-5.6-luna","intelligence":5,"taste":4,"cost":10,"note":"Clear, repeatable high-volume tasks: log digging, bulk analysis, mechanical migrations."}
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"fable-5","intelligence":9,"taste":9,"cost":2,"note":"Orchestrator. Best-in-class intelligence and taste; use for steering, reviews, user-facing output."}
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"opus-4.8","intelligence":7,"taste":8,"cost":4,"note":"Reviews and second passes; often cheaper than token-hungry sonnet-5 in practice."}
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"sonnet-5","intelligence":5,"taste":7,"cost":5,"note":"Mid-tier bounded subagent work; token-hungry."}
+{"ts":"2026-07-18T00:00:00.000Z","source":"prior","model":"haiku-4.5","intelligence":2,"taste":3,"cost":9,"note":"Avoid for real work (video: never use haiku, especially with Codex near-free)."}
