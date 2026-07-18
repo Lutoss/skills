@@ -1,6 +1,0 @@
-interface:
-  display_name: "Ask Matt"
-  short_description: "Ask which skill or flow fits your situation — a router over this pack"
-
-policy:
-  allow_implicit_invocation: false

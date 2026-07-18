@@ -2,6 +2,15 @@
 
 # CHANGES — Was geändert wurde und warum
 
+## 2026-07-18 — Aufräumen: nur noch eigene Skills
+
+- **MattSkills komplett entfernt** (beide Pakete, inkl. `LICENSE-mattpocock-skills`). Wer den vollen Flow will, installiert [mattpocock/skills](https://github.com/mattpocock/skills) separat — die Referenzen in den eigenen Skills (`/code-review`, `$tdd`, `handoff`, ...) bleiben als optionale Handoff-Empfehlungen bestehen und degradieren sauber, wenn das Ziel fehlt.
+- **Struktur geflattet:** `claude/LutossSkills/<skill>` → `claude/<skill>`, analog für `codex/`. Die Gruppenordner-Ebene ist weg.
+- **Install-Scripts** (`install.sh`, `install.ps1`) an die flache Struktur angepasst; Hinweis auf `setup-matt-pocock-skills`/`ask-matt` durch Hinweis auf das optionale Companion-Repo ersetzt.
+- **Claude/Codex-Trennung geprüft und beibehalten:** reale Unterschiede (Invocation-Syntax `/name` vs. `$name`, Frontmatter vs. `openai.yaml`, invertierter `review-loop`, zwei Codex-only-Skills). Entscheidung und Begründung jetzt im README dokumentiert („Why two packs?").
+- READMEs (Root + Packs) neu geschrieben; Attribution-Abschnitte entfernt.
+
+
 Stand: 2026-07-10, nach Ergänzung des lernenden Subagent-Routings und der read-only Claude-Code-Brücke.
 
 ## 0. Entfernt nach Flow-Diskussion
