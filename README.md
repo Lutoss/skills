@@ -18,28 +18,44 @@ Own agent skills in the open [SKILL.md](https://agentskills.io) format, as two r
 | `agent-evals` | — | ✓ | Records verified native and external agent runs in a private SQLite store and recommends models by task after enough comparable evidence. |
 | `ask-claude` | — | ✓ | Invokes a locally authenticated Claude Code CLI as a bounded read-only second-opinion agent and feeds the verified result into `agent-evals`. |
 
-## Installation
+The Claude pack contains 7 skills. The Codex pack contains 8 skills.
 
-### Quick install (scripts)
+## Repository structure
 
-Both scripts take a pack (`claude` or `codex`) and an optional scope (`global`, the default, or `project` with an optional target directory).
-
-Bash:
-
-```sh
-./install.sh claude                       # global: $HOME/.claude/skills
-./install.sh codex                        # global: $HOME/.agents/skills
-./install.sh claude project               # project: ./.claude/skills
-./install.sh codex project /path/to/repo  # project: /path/to/repo/.agents/skills
+```text
+skill-packs/
+├── claude/
+│   ├── README.md
+│   └── <skill>/SKILL.md
+├── codex/
+│   ├── README.md
+│   └── <skill>/SKILL.md
+├── install.sh
+├── install.ps1
+├── CHANGES.md
+└── LICENSE
 ```
 
-PowerShell:
+Skill directories live directly below their platform folder. There are no
+author or origin grouping directories.
+
+## Installation
+
+Both installers take a platform (`claude` or `codex`) and an optional scope
+(`global`, the default, or `project` with an optional target directory).
+
+```sh
+./install.sh claude
+./install.sh codex
+./install.sh claude project
+./install.sh codex project /path/to/repo
+```
 
 ```powershell
-.\install.ps1 claude                        # global: $HOME\.claude\skills
-.\install.ps1 codex                         # global: $HOME\.agents\skills
-.\install.ps1 claude project                # project: .\.claude\skills
-.\install.ps1 codex project C:\path\to\repo # project: C:\path\to\repo\.agents\skills
+.\install.ps1 claude
+.\install.ps1 codex
+.\install.ps1 claude project
+.\install.ps1 codex project C:\path\to\repo
 ```
 
 ### Manual install
