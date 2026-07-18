@@ -1,6 +1,0 @@
-interface:
-  display_name: "To Issues"
-  short_description: "Break a plan or PRD into independently-grabbable tracer-bullet issues"
-
-policy:
-  allow_implicit_invocation: false

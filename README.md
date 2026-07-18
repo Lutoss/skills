@@ -1,11 +1,22 @@
-# Skill Packs: Claude & Codex
+# Lutoss Skills
 
-Two ready-to-install skill packs in the open [SKILL.md](https://agentskills.io) format:
+Own agent skills in the open [SKILL.md](https://agentskills.io) format, as two ready-to-install packs:
 
-- **`claude/`** — 29 skills for Claude Code / Cowork
-- **`codex/`** — 30 skills for OpenAI Codex (CLI, IDE extension, app)
+- **`claude/`** — 6 skills for Claude Code / Cowork
+- **`codex/`** — 8 skills for OpenAI Codex (CLI, IDE extension, app)
 
-Most skills are ported from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT) and partially reworked; the rest are our own repaired or newly written skills.
+## Skills
+
+| Skill | claude | codex | Purpose |
+|---|:-:|:-:|---|
+| `verify-before-done` | ✓ | ✓ | No "done" report without fresh evidence from a check that could have failed — the single biggest quality lever for agent work. |
+| `review-loop` | ✓ | ✓ | Iterative review loop with an external second opinion: the Claude pack asks the Codex CLI, the Codex pack asks Claude Code (inverted roles by design). |
+| `implement-issues` | ✓ | ✓ | Works through ready issues in dependency waves, one worker per issue, with review handoff. |
+| `loop-creator` | ✓ | ✓ | Designs new agent loops (steps, gates, output contract) from a goal description. |
+| `project-review` | ✓ | ✓ | Two-axis review (project standards / original brief) for finished non-code deliverables — documents, presentations, spreadsheets, plans. |
+| `improve-project-structure` | ✓ | ✓ | Scans a project folder for structural friction, presents reorganization proposals as a visual HTML report, and applies the chosen one. |
+| `agent-evals` | — | ✓ | Records verified native and external agent runs in a private SQLite store and recommends models by task after enough comparable evidence. |
+| `ask-claude` | — | ✓ | Invokes a locally authenticated Claude Code CLI as a bounded read-only second-opinion agent and feeds the verified result into `agent-evals`. |
 
 ## Installation
 
@@ -33,55 +44,40 @@ PowerShell:
 
 ### Manual install
 
-Copy the skill folders from `<pack>/MattSkills/` and `<pack>/LutossSkills/` **flat** into the destination — without the `MattSkills/`/`LutossSkills/` group folders. The destination must contain `skills/<skill-name>/SKILL.md` directly. Skip the loose files (`LICENSE-mattpocock-skills`, `README.md`); they do no harm at the destination but are not needed.
+Copy the skill folders from `<pack>/` into the destination so that it contains `skills/<skill-name>/SKILL.md` directly. Skip the loose `README.md`.
 
 | Pack | Global | Project |
 |---|---|---|
 | claude | `~/.claude/skills/` | `<repo>/.claude/skills/` |
 | codex | `$HOME/.agents/skills/` | `<repo>/.agents/skills/` |
 
-### First step after installing
+## Optional companion: mattpocock/skills
 
-Run `setup-matt-pocock-skills` once in the target repo (configures issue tracker, triage labels, docs layout). Use `ask-matt` as the router — it explains which skill fits when, including the local additions.
+Several skills reference skills from [mattpocock/skills](https://github.com/mattpocock/skills) (`code-review`, `tdd`, `handoff`, `to-issues`, `grill-*`, `implement`, `diagnosing-bugs`) as recommended handoff targets. These references are **optional**: each skill works standalone and treats a missing target as "recommend to the user" rather than "invoke". For the full flow, install mattpocock/skills separately alongside this pack.
 
-## Attribution
+## Why two packs?
 
-Most skills in both packs were copied from [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT license, snapshot from 2026-07-02) and partially reworked. See `LICENSE-mattpocock-skills` in each pack's `MattSkills/` folder.
+The packs are deliberately maintained as two full copies rather than a single source with build tooling:
 
-## What we changed and why
-
-**Codex pack** — adapted to the Codex harness: Claude-specific frontmatter keys (`disable-model-invocation`, `argument-hint`) removed; skill cross-references switched to `$name` syntax; user-invoked skills carry an `agents/openai.yaml` with `allow_implicit_invocation: false`; Claude-specific subagent instructions generalized (parallel where available, otherwise sequential with fresh context); `review-loop` gets its second opinion from the Claude Code CLI.
-
-**Claude pack** — stays close to upstream by design; deviations are limited to dangling-reference and issue-flow interop fixes, each documented in [CHANGES.md](CHANGES.md). `review-loop` is inverted to get its second opinion from the Codex CLI.
-
-**Own skills repaired** (in both packs): `implement-issues` (hardcoded, outdated `$env:CODEX_HOME` path; PowerShell-only), `loop-creator` (8+ dangling references to non-existent skills and files), `review-loop` (dangling references; hard pin to one specific reviewer model, now generalized).
-
-**Five new skills:**
-
-- `verify-before-done` — no "done" report without fresh evidence from a check that could have failed; the single biggest quality lever for agent work.
-- `improve-project-structure` — scans a project folder for structural friction, presents reorganization proposals as a visual HTML report, and applies the chosen one; the folder counterpart to `improve-codebase-architecture`.
-- `project-review` — two-axis review (project standards / original brief) for finished non-code deliverables (documents, presentations, spreadsheets, plans); the counterpart to `code-review`.
-- `agent-evals` — records verified native and external agent runs in a private SQLite store and recommends models by task after enough comparable evidence.
-- `ask-claude` — invokes a locally authenticated Claude Code CLI as a bounded read-only second-opinion agent and feeds the verified result into `agent-evals`.
-
-Full changelog (German): [CHANGES.md](CHANGES.md).
+- **Different invocation mechanics.** Claude uses `/name` references and frontmatter keys like `disable-model-invocation`; Codex uses `$name` references and `agents/openai.yaml` with `allow_implicit_invocation: false`.
+- **Inverted second opinions.** `review-loop` in the Claude pack consults the Codex CLI; in the Codex pack it consults Claude Code — including different protocols and scripts.
+- **Pack-only skills.** `agent-evals` and `ask-claude` exist only on the Codex side.
+- **No build step.** Each pack is directly copyable; the duplication cost (four skills with small diffs) is accepted in exchange for zero tooling.
 
 ## Repository structure
 
 ```
-skill-packs/
-├── claude/               # 29 skills for Claude Code / Cowork
-│   ├── MattSkills/       # 23 ported skills + LICENSE-mattpocock-skills
-│   └── LutossSkills/     # 6 own skills
-├── codex/                # 30 skills for OpenAI Codex
-│   ├── MattSkills/       # 22 ported skills + LICENSE-mattpocock-skills
-│   └── LutossSkills/     # 8 own skills
+skills/
+├── claude/               # 6 skills for Claude Code / Cowork
+│   └── <skill-name>/SKILL.md (+ references/, scripts/)
+├── codex/                # 8 skills for OpenAI Codex
+│   └── <skill-name>/SKILL.md (+ references/, scripts/, agents/openai.yaml)
 ├── install.sh            # installer (bash)
 ├── install.ps1           # installer (PowerShell)
-├── CHANGES.md            # detailed changelog (German)
+├── CHANGES.md            # changelog (German)
 └── LICENSE
 ```
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Skills under `*/MattSkills/` are © Matt Pocock ([mattpocock/skills](https://github.com/mattpocock/skills), MIT; see `LICENSE-mattpocock-skills` in each pack).
+MIT — see [LICENSE](LICENSE).

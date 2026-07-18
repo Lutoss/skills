@@ -67,24 +67,18 @@ if (-not (Test-Path -Path $Dest)) {
 $Installed = @()
 $Overwritten = 0
 
-foreach ($Group in @("MattSkills", "LutossSkills")) {
-    $GroupDir = Join-Path $RepoDir (Join-Path $Pack $Group)
-    if (-not (Test-Path -Path $GroupDir -PathType Container)) {
-        Write-Host "Warning: group folder '$GroupDir' not found, skipping."
-        continue
+$PackDir = Join-Path $RepoDir $Pack
+# Directories only: loose files (README, ...) are skipped.
+foreach ($SkillDir in (Get-ChildItem -Path $PackDir | Where-Object { $_.PSIsContainer })) {
+    $Name = $SkillDir.Name
+    $Target = Join-Path $Dest $Name
+    if (Test-Path -Path $Target) {
+        Write-Host "Overwriting existing skill: $Name"
+        Remove-Item -Path $Target -Recurse -Force
+        $Overwritten++
     }
-    # Directories only: loose files (LICENSE, README, ...) are skipped.
-    foreach ($SkillDir in (Get-ChildItem -Path $GroupDir | Where-Object { $_.PSIsContainer })) {
-        $Name = $SkillDir.Name
-        $Target = Join-Path $Dest $Name
-        if (Test-Path -Path $Target) {
-            Write-Host "Overwriting existing skill: $Name"
-            Remove-Item -Path $Target -Recurse -Force
-            $Overwritten++
-        }
-        Copy-Item -Path $SkillDir.FullName -Destination $Target -Recurse
-        $Installed += $Name
-    }
+    Copy-Item -Path $SkillDir.FullName -Destination $Target -Recurse
+    $Installed += $Name
 }
 
 Write-Host ""
@@ -93,5 +87,5 @@ foreach ($Name in $Installed) {
     Write-Host "  - $Name"
 }
 Write-Host ""
-Write-Host "First step after install: run setup-matt-pocock-skills once in your target repo."
-Write-Host "Then use ask-matt as the router to find the right skill."
+Write-Host "Optional companion: the skills reference mattpocock/skills (code-review, tdd, handoff, ...)."
+Write-Host "Install them separately from https://github.com/mattpocock/skills for the full flow."
