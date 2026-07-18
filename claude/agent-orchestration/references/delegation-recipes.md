@@ -2,8 +2,19 @@
 
 ## Codex (gpt-5.6 family) via the `codex` MCP
 
-Call `mcp__codex__codex` (follow-ups: `mcp__codex__codex-reply` with the same
-conversation ID). Key config:
+Two transports exist; pick deliberately:
+
+- **MCP (`mcp__codex__codex`)** — the default. Authenticated connector,
+  structured replies, follow-ups via `mcp__codex__codex-reply` with the
+  same conversation ID.
+- **CLI ("shell out", `codex exec ...` via bash)** — for runs that would
+  outlive a blocking MCP call (xhigh/long-runners, computer use):
+  start detached in a worktree, write output to a file, poll. Also the
+  route on machines where only the CLI is installed. This is the
+  video's original mechanism; MCP supersedes it here except for these
+  cases.
+
+Key config (both transports):
 
 - `model`: `gpt-5.6-sol` (hard/open-ended, high-value), `gpt-5.6-terra`
   (everyday + read-heavy), `gpt-5.6-luna` (high-volume mechanical). The alias
@@ -34,6 +45,14 @@ expected output format in a few plain sentences. It does not need
 motivation, personas, or guardrail prose; unlike Claude models it rarely
 does things it wasn't asked to do.
 
+The prompt must be **self-contained**: Codex sees nothing of this
+conversation. Include the concrete paths, branch names, PR numbers, and
+acceptance criteria it needs — never "as discussed above".
+
+For pure investigation/analysis, run it read-only (`sandbox: read-only`,
+CLI equivalent `codex exec --read-only`) with a self-contained prompt
+instead of setting up a full implementation delegation.
+
 Always include: "If you find nothing, say so clearly and name what you
 inspected." (Prevents the orchestrator from misreading an empty result and
 rerunning.)
@@ -49,6 +68,14 @@ performed, open questions) so verification and scoring are cheap.
   currently far ahead; delegate "test this flow, capture screenshots,
   report actual behavior" tasks there.
 - Independent second-opinion reviews of plans and diffs.
+
+### Codex inside Claude subagents/workflows
+
+When a workflow or subagent must use Codex (workflows can only spawn Claude
+models directly), wrap it: a cheap Claude subagent (sonnet, low effort)
+invokes Codex, waits, and reports the results upward. Prefix such
+subagent names with `gpt56-` so it stays visible which workers actually
+ran on Codex.
 
 ## Claude subagents (Agent tool)
 
