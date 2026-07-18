@@ -70,8 +70,10 @@ Off the main flow entirely.
 
 ## Local additions (this pack)
 
-Six skills ship with this pack on top of the upstream set:
+Eight skills ship with this pack on top of the upstream set:
 
+- **`$agent-evals`** — route, register, and evaluate native Codex subagents and external agents in a private local SQLite store; model recommendations become empirical only after enough comparable verified runs.
+- **`$ask-claude`** — invoke the locally authenticated Claude Code CLI as a bounded read-only second-opinion agent, then verify and record the result through `$agent-evals`.
 - **`$implement-issues`** — batch-implements ready local-markdown issues (from `$to-issues` on the local tracker) in dependency waves, one worker per issue.
 - **`$review-loop`** — the review orchestrator: review -> triage findings -> fix -> verify -> re-review until clean, with a mandatory second-opinion reviewer. `$code-review` is one two-axis pass; `$review-loop` drives passes to closure.
 - **`$project-review`** — the non-code counterpart of `$code-review`: two-axis review (Standards / Brief) of finished documents, decks, spreadsheets, plans, or deliverable folders.
