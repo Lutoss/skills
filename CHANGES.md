@@ -5,6 +5,7 @@
 ## 2026-07-22 — Portables agent-orchestration + Codex-Port
 
 - **Privaten Pfad entfernt:** `claude/agent-orchestration` enthielt den hartkodierten lokalen Repo-Pfad. `scripts/data-dir.txt` ist jetzt untracked und in `.gitignore`; `SKILL.md` dokumentiert stattdessen die Auflösungskette (`--data-dir` > `AGENT_ORCH_DATA` > `data-dir.txt` > `~/.agent-orchestration`) plus Ersteinrichtungs-Hinweis — der Agent fragt beim ersten Einsatz, statt einen fremden Pfad zu erben.
+- **Codex-Transport auf CLI umgestellt:** Der MCP-Connector bricht gesunde Runs nach ~1 min Harness-Timeout ab (zweimal reproduziert, im Scoreboard geloggt). `codex exec` über die Shell (Claude Code: Bash; Cowork: Desktop-Shell-Bridge) ist jetzt Default — Output in Datei, lange Runs detached + Polling; MCP nur noch für Sub-Minuten-Interaktionen.
 - **Codex-Port ergänzt:** `codex/agent-orchestration/` mit gleichem Scoreboard-Tooling (`log_eval.mjs`), Delegations-Rezepten für `codex exec`-Sub-Runs und `ask-claude`, plus `agents/openai.yaml`. Beide Packs können über `data-dir.txt`/`AGENT_ORCH_DATA` dasselbe Scoreboard teilen.
 
 ## 2026-07-18 — Aufräumen: nur noch eigene Skills

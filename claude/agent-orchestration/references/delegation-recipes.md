@@ -1,18 +1,34 @@
 # Delegation recipes
 
-## Codex (gpt-5.6 family) via the `codex` MCP
+## Codex (gpt-5.6 family) via the CLI
 
-Two transports exist; pick deliberately:
+Two transports exist; the **CLI is the default** (the video's original
+mechanism):
 
-- **MCP (`mcp__codex__codex`)** — the default. Authenticated connector,
-  structured replies, follow-ups via `mcp__codex__codex-reply` with the
-  same conversation ID.
-- **CLI ("shell out", `codex exec ...` via bash)** — for runs that would
-  outlive a blocking MCP call (xhigh/long-runners, computer use):
-  start detached in a worktree, write output to a file, poll. Also the
-  route on machines where only the CLI is installed. This is the
-  video's original mechanism; MCP supersedes it here except for these
-  cases.
+- **CLI (`codex exec ...` via a shell on the user's machine)** — the
+  default for every delegation. The MCP harness enforces a short
+  client-side timeout (observed ~1 min) that kills healthy runs at
+  normal reasoning effort, so real work goes through the CLI:
+  run `codex exec` with output redirected to a file; for anything beyond
+  a few minutes start it detached (background/`Start-Process`) in a
+  worktree and poll the output file. In Claude Code, shell out via Bash;
+  in Cowork the sandbox shell has neither the Codex CLI nor its auth —
+  use a desktop shell bridge (e.g. the Windows MCP PowerShell tool)
+  instead.
+- **MCP (`mcp__codex__codex`)** — only for sub-minute interactions:
+  trivial commands, quick follow-ups on an existing thread via
+  `mcp__codex__codex-reply`. Never for reviews or implementation at
+  medium+ effort; two harness timeouts in a row proved the point
+  (see scoreboard entry 2026-07-22).
+
+CLI skeleton (foreground, short run):
+
+    codex exec --model gpt-5.6-terra -c model_reasoning_effort=medium \
+      --sandbox read-only "<self-contained prompt>" > out.md 2>&1
+
+Detached (anything that might exceed a shell-call timeout): same command
+started in the background with output to a file, then poll the file for
+the final report instead of holding one blocking call open.
 
 Key config (both transports):
 
@@ -35,8 +51,10 @@ accordingly and never let a healthy run die on a timeout:
 | Implementation, high | 60 min |
 | xhigh/max, computer use, long-runners | 2 h+ |
 
-For anything expected to exceed the harness limit, run it detached (worktree
-+ background) and poll, rather than holding one blocking call open.
+These budgets apply to the CLI path; the MCP harness cannot honor them —
+another reason MCP is reserved for sub-minute interactions. For anything
+expected to exceed a shell-call limit, run it detached (worktree +
+background) and poll, rather than holding one blocking call open.
 
 ### Prompting Codex
 

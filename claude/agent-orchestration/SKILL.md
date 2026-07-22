@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration
-description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the codex MCP, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a subagent or to Codex, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Replaces the delegate-to-codex skill.
+description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the Codex CLI, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a subagent or to Codex, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Replaces the delegate-to-codex skill.
 ---
 
 # Agent Orchestration
@@ -48,7 +48,7 @@ source references, screenshots) outrank the subagent's self-report.
    under-represented model and flag the eval `--exploration`. Never on
    shipping-relevant work.
 4. **Delegate** using [delegation-recipes.md](references/delegation-recipes.md)
-   (Codex MCP mechanics, prompt style, effort, timeouts).
+   (Codex CLI mechanics, prompt style, effort, timeouts).
 5. **Verify** the result yourself against the real feedback signal before
    accepting it.
 6. **Evaluate** — the delegation is not finished until this ran:
