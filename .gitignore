@@ -9,3 +9,6 @@ desktop.ini
 *~
 .idea/
 .vscode/
+
+# Machine-local agent-orchestration data-dir hints (may contain private paths)
+*/agent-orchestration/scripts/data-dir.txt

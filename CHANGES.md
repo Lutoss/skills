@@ -2,6 +2,11 @@
 
 # CHANGES — Was geändert wurde und warum
 
+## 2026-07-22 — Portables agent-orchestration + Codex-Port
+
+- **Privaten Pfad entfernt:** `claude/agent-orchestration` enthielt den hartkodierten lokalen Repo-Pfad. `scripts/data-dir.txt` ist jetzt untracked und in `.gitignore`; `SKILL.md` dokumentiert stattdessen die Auflösungskette (`--data-dir` > `AGENT_ORCH_DATA` > `data-dir.txt` > `~/.agent-orchestration`) plus Ersteinrichtungs-Hinweis — der Agent fragt beim ersten Einsatz, statt einen fremden Pfad zu erben.
+- **Codex-Port ergänzt:** `codex/agent-orchestration/` mit gleichem Scoreboard-Tooling (`log_eval.mjs`), Delegations-Rezepten für `codex exec`-Sub-Runs und `ask-claude`, plus `agents/openai.yaml`. Beide Packs können über `data-dir.txt`/`AGENT_ORCH_DATA` dasselbe Scoreboard teilen.
+
 ## 2026-07-18 — Aufräumen: nur noch eigene Skills
 
 - **MattSkills komplett entfernt** (beide Pakete, inkl. `LICENSE-mattpocock-skills`). Wer den vollen Flow will, installiert [mattpocock/skills](https://github.com/mattpocock/skills) separat — die Referenzen in den eigenen Skills (`/code-review`, `$tdd`, `handoff`, ...) bleiben als optionale Handoff-Empfehlungen bestehen und degradieren sauber, wenn das Ziel fehlt.

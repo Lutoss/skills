@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Orchestration"
+  short_description: "Route delegated work to the best model and keep score"
+  default_prompt: "Use $agent-orchestration to pick the right model for this task, delegate it, verify the result, and log the evaluation."

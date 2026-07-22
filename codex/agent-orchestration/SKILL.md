@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration
-description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the codex MCP, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a subagent or to Codex, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Replaces the delegate-to-codex skill.
+description: Route delegated work to the right worker (gpt-5.6 sol/terra/luna sub-runs via codex exec, or Claude via ask-claude), verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a sub-run or to Claude, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard.
 ---
 
 # Agent Orchestration
@@ -10,7 +10,7 @@ model performs each kind of task. Every substantial delegation ends with a
 scored evaluation. Over time the scoreboard — not static priors — decides
 routing.
 
-All writes go through `scripts/log_eval.mjs`; never edit
+All writes go through `scripts/log_eval.mjs` (requires Node.js); never edit
 `evaluations.jsonl` or `SCOREBOARD.md` by hand. The script resolves the
 data directory in this order: `--data-dir` flag > `AGENT_ORCH_DATA` env
 var > `scripts/data-dir.txt` next to the script > `~/.agent-orchestration`
@@ -18,10 +18,10 @@ var > `scripts/data-dir.txt` next to the script > `~/.agent-orchestration`
 
 **First use in a new environment:** if none of the first three are set,
 the store lands in `~/.agent-orchestration` — fine for a single-machine
-setup. To keep the store somewhere else (e.g. a synced or versioned
-folder), write that absolute path as a single line into
-`scripts/data-dir.txt` (untracked, machine-local) or export
-`AGENT_ORCH_DATA`. Ask the user once rather than guessing.
+setup. To share one scoreboard with other agents (e.g. the Claude pack's
+copy of this skill), point `scripts/data-dir.txt` (untracked,
+machine-local) or `AGENT_ORCH_DATA` at the same directory. Ask the user
+once rather than guessing.
 
 ## Glossary (score axes, 1-10)
 
@@ -34,7 +34,7 @@ folder), write that absolute path as a single line into
   rework loops, and overreach lower this even if the result is fine.
 
 A polished answer is not evidence. Deterministic checks (tests, diffs,
-source references, screenshots) outrank the subagent's self-report.
+source references, screenshots) outrank the worker's self-report.
 
 ## Workflow per delegation
 
@@ -48,7 +48,8 @@ source references, screenshots) outrank the subagent's self-report.
    under-represented model and flag the eval `--exploration`. Never on
    shipping-relevant work.
 4. **Delegate** using [delegation-recipes.md](references/delegation-recipes.md)
-   (Codex MCP mechanics, prompt style, effort, timeouts).
+   (`codex exec` sub-run mechanics, prompt style, effort, timeouts; Claude
+   via the `ask-claude` skill).
 5. **Verify** the result yourself against the real feedback signal before
    accepting it.
 6. **Evaluate** — the delegation is not finished until this ran:
@@ -75,10 +76,13 @@ source references, screenshots) outrank the subagent's self-report.
   itself can settle whether they ever pay off.
 - Timeouts must never kill a healthy run: plan ~30 min for normal
   delegations, 2h+ for xhigh or long-runners (details in the recipes file).
-- Skip logging for trivial lookups (a subagent finding a file, a one-line
+- Skip logging for trivial lookups (a sub-run finding a file, a one-line
   factual check). Log everything with a real work product.
-- If a Codex run finds nothing or fails, that is a result: report it
+- If a sub-run finds nothing or fails, that is a result: report it
   clearly, log it, do not silently rerun.
+- Claude delegations stay behind the `ask-claude` privacy gate; that skill's
+  own `agent-evals` registration continues to apply — log here as well so
+  the cross-model scoreboard stays complete.
 
 ## Reports
 
