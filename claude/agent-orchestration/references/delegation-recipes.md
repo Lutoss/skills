@@ -14,7 +14,10 @@ mechanism):
   worktree and poll the output file. In Claude Code, shell out via Bash;
   in Cowork the sandbox shell has neither the Codex CLI nor its auth —
   use a desktop shell bridge (e.g. the Windows MCP PowerShell tool)
-  instead.
+  instead. If no shell bridge is connected/approved (the permission
+  system blocks the CLI start), do **not** silently fall back to MCP
+  for medium+ runs: tell the user and ask them to enable the bridge —
+  the MCP timeout will otherwise kill the run anyway.
 - **MCP (`mcp__codex__codex`)** — only for sub-minute interactions:
   trivial commands, quick follow-ups on an existing thread via
   `mcp__codex__codex-reply`. Never for reviews or implementation at
@@ -29,6 +32,16 @@ CLI skeleton (foreground, short run):
 Detached (anything that might exceed a shell-call timeout): same command
 started in the background with output to a file, then poll the file for
 the final report instead of holding one blocking call open.
+
+**CLI gotchas (both verified 2026-07-22):**
+
+- `codex exec` refuses to start outside a trusted git repo ("Not inside
+  a trusted directory"). Run it from inside the target repo, or add
+  `--skip-git-repo-check` when no repo applies.
+- In non-interactive shells it also reads from stdin ("Reading
+  additional input from stdin...") and can hang waiting for EOF. Always
+  close stdin: `$null | codex exec ...` (PowerShell) or
+  `codex exec ... < /dev/null` (bash).
 
 Key config (both transports):
 
