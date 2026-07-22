@@ -30,6 +30,16 @@ Detached (anything that might exceed a shell-call timeout): same command
 started in the background with output to a file, then poll the file for
 the final report instead of holding one blocking call open.
 
+**CLI gotchas (both verified 2026-07-22):**
+
+- `codex exec` refuses to start outside a trusted git repo ("Not inside
+  a trusted directory"). Run it from inside the target repo, or add
+  `--skip-git-repo-check` when no repo applies.
+- In non-interactive shells it also reads from stdin ("Reading
+  additional input from stdin...") and can hang waiting for EOF. Always
+  close stdin: `$null | codex exec ...` (PowerShell) or
+  `codex exec ... < /dev/null` (bash).
+
 Key config (both transports):
 
 - `model`: `gpt-5.6-sol` (hard/open-ended, high-value), `gpt-5.6-terra`

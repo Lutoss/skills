@@ -17,6 +17,11 @@ Spawn workers as fresh CLI runs so each gets a clean context:
 - For runs that would outlive a blocking call (xhigh, long-runners,
   computer use): start detached in a worktree, write output to a file,
   poll — rather than holding one foreground run open.
+- `codex exec` refuses to start outside a trusted git repo; run it from
+  inside the target repo or add `--skip-git-repo-check`. In
+  non-interactive shells it also reads stdin and can hang waiting for
+  EOF — close stdin (`$null | codex exec ...` in PowerShell,
+  `codex exec ... < /dev/null` in bash).
 
 ### Timeouts
 
