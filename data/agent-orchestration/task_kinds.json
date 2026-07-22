@@ -11,5 +11,6 @@
   "migration_mechanical",
   "docs",
   "data_analysis",
-  "desktop_config"
+  "desktop_config",
+  "image_generation"
 ]

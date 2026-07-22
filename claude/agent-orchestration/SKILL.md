@@ -23,6 +23,20 @@ folder), write that absolute path as a single line into
 `scripts/data-dir.txt` (untracked, machine-local) or export
 `AGENT_ORCH_DATA`. Ask the user once rather than guessing.
 
+**Sandboxed sessions (Cowork):** `data-dir.txt` holds a *host* path. If
+your shell is a sandbox that cannot reach it, do **not** fall back to a
+fresh `~/.agent-orchestration` inside the sandbox — that forks the
+history into a throwaway environment. Instead run every read and write
+on the host via the desktop shell bridge (e.g. Windows MCP PowerShell):
+read `<data-dir>\SCOREBOARD.md` from there, and log with the repo copy
+of the script, e.g.
+`node <skills-repo>\claude\agent-orchestration\scripts\log_eval.mjs add ...`
+— it sits next to a `data-dir.txt` with the correct host path, so
+resolution works. If the host data dir happens to be mounted into the
+session (path visible under the session mount), using the mounted path
+with `--data-dir` is equally fine. If neither is reachable, say so and
+skip logging rather than writing to a store that dies with the session.
+
 ## Glossary (score axes, 1-10)
 
 - **Correctness** — did the result hold up under verification? 10 = verified
