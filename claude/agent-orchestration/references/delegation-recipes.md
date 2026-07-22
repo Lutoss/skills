@@ -14,7 +14,10 @@ mechanism):
   worktree and poll the output file. In Claude Code, shell out via Bash;
   in Cowork the sandbox shell has neither the Codex CLI nor its auth —
   use a desktop shell bridge (e.g. the Windows MCP PowerShell tool)
-  instead.
+  instead. If no shell bridge is connected/approved (the permission
+  system blocks the CLI start), do **not** silently fall back to MCP
+  for medium+ runs: tell the user and ask them to enable the bridge —
+  the MCP timeout will otherwise kill the run anyway.
 - **MCP (`mcp__codex__codex`)** — only for sub-minute interactions:
   trivial commands, quick follow-ups on an existing thread via
   `mcp__codex__codex-reply`. Never for reviews or implementation at
