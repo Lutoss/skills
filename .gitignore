@@ -12,3 +12,6 @@ desktop.ini
 
 # Machine-local agent-orchestration data-dir hints (may contain private paths)
 */agent-orchestration/scripts/data-dir.txt
+
+# Privates Scoreboard (lebt im privaten Repo)
+data/
