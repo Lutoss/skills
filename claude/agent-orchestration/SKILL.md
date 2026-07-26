@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration
-description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the Codex CLI, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a subagent or to Codex, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Replaces the delegate-to-codex skill.
+description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the Codex CLI, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. ALWAYS use this skill whenever subagents are involved or about to be spawned — every subagent start goes through it, not just Codex delegations. Also use when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Subagents are cheap; delegate generously. Replaces the delegate-to-codex skill.
 ---
 
 # Agent Orchestration
@@ -65,8 +65,31 @@ source references, screenshots) outrank the subagent's self-report.
    `blocked`. Record every attempt; when escalating to a smarter model, log
    the failed attempt too (verdict `escalated`) — never overwrite it.
 
+## Reaching Codex (mandatory attempt chain)
+
+When a task is routed to Codex (especially when the user asked for
+Codex/a Codex review), exhaust this chain before giving up:
+
+1. **Codex CLI via local shell** — Claude Code: Bash (`codex exec ...`,
+   see recipes).
+2. **Sandboxed session (Cowork):** the sandbox has no Codex CLI — use a
+   desktop shell bridge (e.g. Windows MCP PowerShell) to run the CLI on
+   the host. If the bridge tools are deferred, load them via ToolSearch;
+   if the bridge is not connected or not approved, ask the user to
+   connect/approve it — that is part of trying, not a failure.
+3. **Codex MCP connector** — last resort, sub-minute interactions only
+   (harness timeout kills longer runs).
+4. **All exhausted → stop.** Never silently substitute a Claude subagent
+   for a requested Codex task. Report exactly what was tried and what
+   failed, log the attempt (`--verdict blocked`), and ask the user how
+   to proceed.
+
 ## Routing rules
 
+- **Use subagents generously.** Fan out reads, exploration, per-file
+  analysis, verification, and second opinions to parallel subagents by
+  default; fresh context per worker is a feature. Every spawn still goes
+  through this skill's routing and (for substantial work) evaluation.
 - Defaults, not limits: judge the output, not the price tag. If a cheaper
   model's output misses the bar, redo with a smarter model without asking.
 - Reasoning effort default is `high` (`medium` for terra/luna routine work).
