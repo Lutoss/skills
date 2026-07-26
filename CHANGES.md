@@ -4,6 +4,7 @@
 
 ## 2026-07-27 — Neuer Skill: youtube-transcript
 
+- **Codex-Port:** `codex/youtube-transcript/` mit identischen Scripts; SKILL.md an Codex angepasst (Netzwerk-Escalation statt Sandbox-Hintergrundlauf, `python` auf Windows).
 - **`claude/youtube-transcript/` ergänzt:** Legt ein YouTube-Video als lokalen Transkript-Ordner ab (`transcript.md` mit Metadaten, Description, Kapiteln und kuratierten Top-Kommentaren, dazu `transcript_timestamps.txt` als Join-Key) und baut auf Wunsch Kontaktbogen-Karten (4×4-Grids, Timestamps eingebrannt), damit ein Agent das Video „sehen" kann.
 - **Sampling recherche-basiert:** Hybrid aus uniformem Raster (Dauer/80, geklemmt 5–30 s) und ffmpeg-Szenenwechsel-Keyframes (amber `*`), Gesamtlimit 128 Frames = 8 Karten. Grid-Montagen erreichen laut Multimodal-Forschung Einzelframe-Genauigkeit bei einem Bruchteil der Token-Kosten (Kacheln 384×216 > 200-px-Grenze); SKILL.md enthält eine „How an agent should watch"-Leseanleitung (interleaved Transkript + Karten).
 
