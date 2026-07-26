@@ -2,7 +2,7 @@
 
 Own agent skills in the open [SKILL.md](https://agentskills.io) format, as two ready-to-install packs:
 
-- **`claude/`** — 6 skills for Claude Code / Cowork
+- **`claude/`** — 8 skills for Claude Code / Cowork
 - **`codex/`** — 8 skills for OpenAI Codex (CLI, IDE extension, app)
 
 ## Skills
@@ -15,10 +15,11 @@ Own agent skills in the open [SKILL.md](https://agentskills.io) format, as two r
 | `loop-creator` | ✓ | ✓ | Designs new agent loops (steps, gates, output contract) from a goal description. |
 | `project-review` | ✓ | ✓ | Two-axis review (project standards / original brief) for finished non-code deliverables — documents, presentations, spreadsheets, plans. |
 | `improve-project-structure` | ✓ | ✓ | Scans a project folder for structural friction, presents reorganization proposals as a visual HTML report, and applies the chosen one. |
+| `youtube-transcript` | ✓ | — | Saves a YouTube video as a local transcript folder (metadata, description, chapters, top comments) plus optional contact-sheet frame cards with hybrid uniform + scene-change sampling, so an agent can "see" the video. |
 | `agent-evals` | — | ✓ | Records verified native and external agent runs in a private SQLite store and recommends models by task after enough comparable evidence. |
 | `ask-claude` | — | ✓ | Invokes a locally authenticated Claude Code CLI as a bounded read-only second-opinion agent and feeds the verified result into `agent-evals`. |
 
-The Claude pack contains 7 skills. The Codex pack contains 8 skills.
+The Claude pack contains 8 skills. The Codex pack contains 8 skills.
 
 ## Repository structure
 

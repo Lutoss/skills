@@ -2,6 +2,11 @@
 
 # CHANGES — Was geändert wurde und warum
 
+## 2026-07-27 — Neuer Skill: youtube-transcript
+
+- **`claude/youtube-transcript/` ergänzt:** Legt ein YouTube-Video als lokalen Transkript-Ordner ab (`transcript.md` mit Metadaten, Description, Kapiteln und kuratierten Top-Kommentaren, dazu `transcript_timestamps.txt` als Join-Key) und baut auf Wunsch Kontaktbogen-Karten (4×4-Grids, Timestamps eingebrannt), damit ein Agent das Video „sehen" kann.
+- **Sampling recherche-basiert:** Hybrid aus uniformem Raster (Dauer/80, geklemmt 5–30 s) und ffmpeg-Szenenwechsel-Keyframes (amber `*`), Gesamtlimit 128 Frames = 8 Karten. Grid-Montagen erreichen laut Multimodal-Forschung Einzelframe-Genauigkeit bei einem Bruchteil der Token-Kosten (Kacheln 384×216 > 200-px-Grenze); SKILL.md enthält eine „How an agent should watch"-Leseanleitung (interleaved Transkript + Karten).
+
 ## 2026-07-22 — Portables agent-orchestration + Codex-Port
 
 - **Privaten Pfad entfernt:** `claude/agent-orchestration` enthielt den hartkodierten lokalen Repo-Pfad. `scripts/data-dir.txt` ist jetzt untracked und in `.gitignore`; `SKILL.md` dokumentiert stattdessen die Auflösungskette (`--data-dir` > `AGENT_ORCH_DATA` > `data-dir.txt` > `~/.agent-orchestration`) plus Ersteinrichtungs-Hinweis — der Agent fragt beim ersten Einsatz, statt einen fremden Pfad zu erben.
