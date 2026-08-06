@@ -108,6 +108,41 @@ invokes Codex, waits, and reports the results upward. Prefix such
 subagent names with `gpt56-` so it stays visible which workers actually
 ran on Codex.
 
+## Gemini via the Antigravity CLI (`agy`)
+
+Google's consumer subscriptions (AI Pro/Ultra) stopped covering the old
+Gemini CLI on 2026-06-18; the **Antigravity CLI (`agy`)** is the official
+successor and is covered by those subscriptions. Auth is a one-time
+interactive OAuth login (run `agy`, browser flow) done by the user —
+headless mode only uses cached credentials and exits non-zero otherwise.
+Missing credentials are a "ask the user to log in" situation, not a dead
+end. In Cowork, run `agy` through the desktop shell bridge exactly like
+the Codex CLI — but note that **install and login must happen in the
+user's own shell**: desktop-bridge installs can land in an
+app-virtualized AppData container (MSIX) the real system never sees.
+
+Skeleton (print mode, JSON envelope):
+
+    agy -p "<self-contained prompt>" --output-format json \
+      --model gemini-3.1-pro-high --print-timeout 30m
+
+- **Always pin `--model`** — without it Antigravity routes on its own.
+  `agy models` lists current slugs; pattern `<model>-<effort>`:
+  `gemini-3.1-pro-high` for reviews/second opinions,
+  `gemini-3.5-flash-*` for cheap bulk work.
+- `--print-timeout` needs a duration unit (`120s`, `30m`); default is 5m.
+  Budget timeouts like the Codex table above.
+- JSON envelope: `status` (`SUCCESS`/`ERROR`), `response`, `usage`,
+  `conversation_id` (resume via `--conversation`); enforce structured
+  output with `--json-schema`.
+- Headless soft-denies shell commands by default — ideal for text-only
+  second opinions. Grant tools via permission rules if needed, not via
+  `--dangerously-skip-permissions`.
+- Subscription quota is workload-based (rolling refresh + weekly cap):
+  fine for second opinions and reviews, unpredictable for bulk runs.
+- Log evals with `--model gemini-3.1-pro` (effort separately via
+  `--effort`) so Gemini runs land on the scoreboard like everyone else.
+
 ## Claude subagents (Agent tool)
 
 - Fan-out reads, codebase exploration, parallel per-file analysis: `Explore`

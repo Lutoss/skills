@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration
-description: Route delegated work to the right worker (gpt-5.6 sol/terra/luna sub-runs via codex exec, or Claude via ask-claude), verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a sub-run or to Claude, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard.
+description: Route delegated work to the right worker (gpt-5.6 sol/terra/luna sub-runs via codex exec, Gemini via the Antigravity CLI, or Claude via ask-claude), verify the result, and record a mandatory evaluation in a self-maintained scoreboard. Use whenever delegating substantial work to a sub-run or to Claude, when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard.
 ---
 
 # Agent Orchestration

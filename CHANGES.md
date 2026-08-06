@@ -2,6 +2,11 @@
 
 # CHANGES — Was geändert wurde und warum
 
+## 2026-08-06 — agent-orchestration: Gemini als dritter Worker
+
+- **Antigravity CLI (`agy`) als Delegationsziel ergänzt** (beide Packs, `references/delegation-recipes.md` + SKILL.md-Beschreibung): Google-AI-Abos decken seit 18.06.2026 nicht mehr die alte Gemini CLI, sondern deren Nachfolger Antigravity CLI. Rezept: Print-Mode mit JSON-Envelope, Modell immer pinnen (`gemini-3.1-pro-high` für Reviews, Flash für Bulk), `--print-timeout` mit Einheit, Headless verweigert standardmäßig Shell-Kommandos (gut für reine Zweitmeinungen). Verifiziert am 06.08. mit erfolgreichem Headless-Lauf.
+- **Claude-Pack zusätzlich:** Warnung vor MSIX-Virtualisierung — Installationen über eine Desktop-Bridge können in einem App-Container landen, den das echte System nie sieht; Install und Login gehören in die Shell des Nutzers (an genau diesem Fall gelernt).
+
 ## 2026-07-27 — Neuer Skill: youtube-transcript
 
 - **Codex-Port:** `codex/youtube-transcript/` mit identischen Scripts; SKILL.md an Codex angepasst (Netzwerk-Escalation statt Sandbox-Hintergrundlauf, `python` auf Windows).

@@ -1,6 +1,6 @@
 ---
 name: agent-orchestration
-description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the Codex CLI, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. ALWAYS use this skill whenever subagents are involved or about to be spawned — every subagent start goes through it, not just Codex delegations. Also use when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Subagents are cheap; delegate generously. Replaces the delegate-to-codex skill.
+description: Route work to the right model (Codex gpt-5.6 sol/terra/luna via the Codex CLI, Gemini via the Antigravity CLI, or Claude subagents), delegate it, verify the result, and record a mandatory evaluation in a self-maintained scoreboard. ALWAYS use this skill whenever subagents are involved or about to be spawned — every subagent start goes through it, not just Codex delegations. Also use when choosing a model for a task, when the user asks which model is best for something, or asks for the scoreboard/leaderboard. Subagents are cheap; delegate generously. Replaces the delegate-to-codex skill.
 ---
 
 # Agent Orchestration
