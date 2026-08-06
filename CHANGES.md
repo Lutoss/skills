@@ -2,6 +2,10 @@
 
 # CHANGES — Was geändert wurde und warum
 
+## 2026-08-06 (2) — agent-orchestration: Kimi K3 als vierter Worker
+
+- **Kimi K3 via OpenRouter ergänzt** (beide Packs, `references/delegation-recipes.md`): OpenAI-kompatibler Chat-Call (`moonshotai/kimi-k3`), Key nur aus lokalem Secrets-Store, nie in Output oder Commits. Gotchas dokumentiert: always-thinking (max_tokens großzügig), Exacto-Routing für Tool-lastige Jobs, First-Party-Key als Caching-Alternative. Verifiziert mit erfolgreichem API-Call am 06.08. Stärken-Einordnung: unabhängige Drittmeinung jenseits Anthropic/OpenAI-Lineage plus 1M-Kontext-Reads.
+
 ## 2026-08-06 — agent-orchestration: Gemini als dritter Worker
 
 - **Antigravity CLI (`agy`) als Delegationsziel ergänzt** (beide Packs, `references/delegation-recipes.md` + SKILL.md-Beschreibung): Google-AI-Abos decken seit 18.06.2026 nicht mehr die alte Gemini CLI, sondern deren Nachfolger Antigravity CLI. Rezept: Print-Mode mit JSON-Envelope, Modell immer pinnen (`gemini-3.1-pro-high` für Reviews, Flash für Bulk), `--print-timeout` mit Einheit, Headless verweigert standardmäßig Shell-Kommandos (gut für reine Zweitmeinungen). Verifiziert am 06.08. mit erfolgreichem Headless-Lauf.

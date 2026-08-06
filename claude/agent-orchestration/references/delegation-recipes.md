@@ -143,6 +143,29 @@ Skeleton (print mode, JSON envelope):
 - Log evals with `--model gemini-3.1-pro` (effort separately via
   `--effort`) so Gemini runs land on the scoreboard like everyone else.
 
+## Kimi K3 via OpenRouter (OpenAI-compatible API)
+
+Moonshot's Kimi K3 (1M context, always-thinking) is reachable as a plain
+OpenAI-compatible chat call — no CLI needed:
+
+    POST https://openrouter.ai/api/v1/chat/completions
+    Authorization: Bearer <key>      # from a local secrets file/env var
+    { "model": "moonshotai/kimi-k3", "messages": [...] }
+
+- **The key never appears in output, prompts, or commits.** Read it from
+  the local secrets store (e.g. `OPENROUTER_API_KEY`) at call time.
+- K3 always reasons; completions include thinking tokens — budget
+  `max_tokens` generously (2000+ even for short answers).
+- OpenRouter fans out across providers; for tool-heavy jobs prefer the
+  Exacto routing variant (higher tool-calling fidelity). A first-party
+  key on platform.moonshot.ai (`https://api.moonshot.ai/v1`, model
+  `kimi-k3`) adds automatic prompt caching — cheaper for repeated long
+  contexts.
+- Best fit: independent second opinions from a non-Anthropic/non-OpenAI
+  lineage, and huge-context reads (1M window).
+- Log evals with `--model kimi-k3` so K3 runs land on the scoreboard
+  like everyone else.
+
 ## Claude subagents (Agent tool)
 
 - Fan-out reads, codebase exploration, parallel per-file analysis: `Explore`
